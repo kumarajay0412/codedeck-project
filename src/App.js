@@ -5,7 +5,8 @@ import {
   Route
 } from "react-router-dom";
 import routes from './routes';
-
+import ModalProvider from './Context/ModalContext';
+import  PlaygroundContext  from './Context/PlaygroundContext';
 const Loader = () => {
   <div className='flex justify-center items-center'>
     <div className='spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full ' role="status">
@@ -17,19 +18,24 @@ function App() {
   return (
     <Suspense fallback={Loader()}>
       {
-        <Router>
-          <Routes>
-            <>
-              {
-                routes.map((route, index) =>
-                  <Route
-                    path={route.path}
-                    element={route.component}
-                  />
-                )}
-            </>
-          </Routes>
-        </Router>
+        <PlaygroundContext>
+          <ModalProvider>
+            <Router>
+              <Routes>
+                <>
+                  {
+                    routes.map((route, index) =>
+                      <Route
+                        path={route.path}
+                        element={route.component}
+                      />
+                    )}
+                </>
+              </Routes>
+            </Router>
+          </ModalProvider>
+        </PlaygroundContext>
+
       }
     </Suspense>
   );
