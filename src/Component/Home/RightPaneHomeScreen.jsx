@@ -17,7 +17,7 @@ function RightPaneHomeScreen() {
                 <h2>My <span className='font-semibold text-2xl'>PlayGround</span></h2>
                 <h4 onClick={() => openModal({
                     show: true,
-                    modalType: 3,
+                    modalType: 1,
                     identifiers: {
                         folderId: "",
                         cardId: ""
@@ -25,58 +25,71 @@ function RightPaneHomeScreen() {
                 })}> <span className='font-semibold text-2xl'>+</span>{" "}New Folder</h4>
             </div>
             <hr className='mb-12 mt-4 bg-black' />
-
-            <div className='flex flex-col my-8'>
-                <div className='flex justify-between placeholder:mt-8 items-center'>
-                    <div className='flex gap-4 items-center'>
-                        <FcOpenedFolder size={'2em'} />
-                        <h3 className='font-semibold'>DSA</h3>
+            {Object.entries(folders).map(([folderId, folder]) =>
+                <div className='flex-col flex my-8'>
+                    <div className='flex justify-between placeholder:mt-8 items-center'>
+                        <div className='gap-4 items-center flex  flex-row'>
+                            <FcOpenedFolder size={'2em'} />
+                            <h3 className='font-semibold'>{folder.title}</h3>
+                        </div>
+                        <div className='flex gap-4 items-center'>
+                            <BiEditAlt size={'1.5em'} onClick={() => {
+                                openModal({
+                                    show: true,
+                                    modalType: 4,
+                                    identifiers: {
+                                        folderId: folderId,
+                                        cardId: ""
+                                    }
+                                })
+                            }} />
+                            <IoTrashOutline size={'1.5em'}
+                                onClick={() => deleteFolder(folderId)}
+                            />
+                            <h4 onClick={() => {
+                                openModal({
+                                    show: true,
+                                    modalType: 2,
+                                    identifiers: {
+                                        folderId: folderId,
+                                        cardId: ""
+                                    }
+                                })
+                            }}
+                                className='font-semibold'> <span className='font-semibold text-2xl'>+</span>{" "} New Playground</h4>
+                        </div>
                     </div>
-                    <div className='flex gap-4 items-center'>
-                        <BiEditAlt size={'1.5em'} />
-                        <IoTrashOutline size={'1.5em'} />
-                        <h4 className='font-semibold'> <span className='font-semibold text-2xl'>+</span>{" "} New Playground</h4>
+                    <hr className='mb-12 mt-4 bg-black' />
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4'>
+                        {Object.entries(folder['playgrounds']).map(([playgroundId, playground]) =>
+                            <Card key={playgroundId} >
+                                <div className='flex items-center justify-between'>
+                                    <div className='flex gap-4'>
+                                        <img src='/logo-small.png' />
+                                        <div>
+                                            <h4>{playground.title}</h4>
+                                            <h4>Language: {playground.language}</h4>
+                                        </div>
+                                    </div>
+                                    <div className='flex gap-4 items-center'>
+                                        <BiEditAlt size={'1.5em'} onClick={() =>
+                                            openModal({
+                                                show: true,
+                                                modalType: 5,
+                                                identifiers: {
+                                                    folderId: folderId,
+                                                    cardId: playgroundId
+                                                }
+                                            })
+                                        } />
+                                        <IoTrashOutline size={'1.5em'} onClick={() => deleteCard(folderId, playgroundId)} />
+                                    </div>
+                                </div>
+                            </Card>
+                        )}
                     </div>
                 </div>
-            </div>
-
-            <hr className='mb-12 mt-4 bg-black' />
-
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4'>
-                <Card>
-                    <div className='flex items-center justify-between'>
-                        <div className='flex gap-4'>
-                            <img src='/logo-small.png' />
-                            <div>
-                                <h4>Stack Implementation</h4>
-                                <h4>Language:cpp</h4>
-                            </div>
-                        </div>
-                        <div className='flex gap-4 items-center'>
-                            <BiEditAlt size={'1.5em'} />
-                            <IoTrashOutline size={'1.5em'} />
-                        </div>
-                    </div>
-                </Card>
-
-                <Card>
-                    <div className='flex items-center justify-between'>
-                        <div className='flex gap-4'>
-                            <img src='/logo-small.png' />
-                            <div>
-                                <h4>Stack Implementation</h4>
-                                <h4>Language:cpp</h4>
-                            </div>
-                        </div>
-                        <div className='flex gap-4 items-center'>
-                            <BiEditAlt size={'1.5em'} />
-                            <IoTrashOutline size={'1.5em'} />
-                        </div>
-                    </div>
-                </Card>
-
-            </div>
-
+            )}
         </div>
     )
 }
