@@ -1,34 +1,38 @@
-import { createContext,useState } from "react";
+import { createContext, useState } from "react";
 
 export const ModalContext = createContext();
 
-function ModalProvider({ children }) {
-    const intialModalFields ={
-        show:false,
-        modalType:"",
-        identifiers :{
-            folderId: "",
-            cardID:""
+// ModalFields: {foldername, filename, language, type, isopenmodel}
+function ModalProvider({children}){
+    const initialModalFields = {
+        show : false,
+        modalType : "",
+        identifiers : {
+            folderId : "",
+            cardId : "",
         }
     }
-    const [isOpenModal, setIsOpenModal] = useState({...intialModalFields});
-    const openModal= (value)=>{
+
+    const [isOpenModal, setIsOpenModal] = useState({ ...initialModalFields});
+
+    const openModal = (value) => {
         setIsOpenModal(value)
     }
-    const closeModal= (value)=>{
-        setIsOpenModal({...intialModalFields})
-    }
-    const ModalFeatures={
-        isOpenModal :isOpenModal,
-        openModal:openModal,
-        closeModal:closeModal
-    }
-    console.log(ModalFeatures)
 
-  return (
-    <ModalContext.Provider value={ModalFeatures}>
-      {children}
-    </ModalContext.Provider>
-  );
+    const closeModal = () => {
+        setIsOpenModal({ ...initialModalFields})
+    }
+
+    const ModalFeatures = {
+        isOpenModal: isOpenModal,
+        openModal: openModal,
+        closeModal: closeModal,
+    }
+    return (
+        <ModalContext.Provider value={ModalFeatures}>
+            {children}
+        </ModalContext.Provider>
+    )
 }
+
 export default ModalProvider;

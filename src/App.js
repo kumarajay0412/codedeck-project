@@ -20,7 +20,7 @@ function App() {
       {
         <PlaygroundProvider>
           <ModalProvider>
-            <Router>
+            {<Router>
               <Routes>
                 <>
                   {
@@ -32,7 +32,7 @@ function App() {
                     )}
                 </>
               </Routes>
-            </Router>
+            </Router>}
           </ModalProvider>
         </PlaygroundProvider>
 
