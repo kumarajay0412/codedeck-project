@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import Navbar from '../Component/Playground/Navbar'
 import { useParams } from 'react-router-dom'
-import { PlaygroundContext,languageMap} from '../Context/PlaygroundContext'
+import { PlaygroundContext, languageMap } from '../Context/PlaygroundContext'
 import { ModalContext } from '../Context/ModalContext'
 import Modal from '../Component/Modal'
 import { Buffer } from 'buffer'
