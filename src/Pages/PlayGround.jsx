@@ -6,13 +6,16 @@ import { ModalContext } from '../Context/ModalContext'
 import Modal from '../Component/Modal'
 import { Buffer } from 'buffer'
 import axios from 'axios'
+import EditContainer from '../Component/Playground/EditContainer';
+import InputConsole from '../Component/Playground/InputConsole'
+import OutputConsole from '../Component/Playground/OutputConsole'
 function PlayGround() {
 
   const { folderId, playgroundId } = useParams()
   const { folders, savePlayground } = useContext(PlaygroundContext)
   const { isOpenModal, openModal, closeModal } = useContext(ModalContext)
   const { title, language, code } = folders[folderId]?.playgrounds[playgroundId]
-
+  console.log(title, language, code)
   const [currentLanguage, setCurrentLanguage] = useState(language)
   const [currentCode, setCurrentCode] = useState(code)
   const [currentInput, setCurrentInput] = useState('')
@@ -142,7 +145,34 @@ function PlayGround() {
   return (
     <div>
       <Navbar />
-
+      <div className='flex'>
+        <div className='w-1/2 h-screen'>
+          <EditContainer
+          title={title}
+          currentLanguage={currentLanguage}
+          setCurrentLanguage={setCurrentLanguage}
+          currentCode={currentCode}
+          folderId={folderId}
+          playgroundId={playgroundId}
+          saveCode={saveCode}
+          runCode={runCode}
+          getFile={getFile}
+          isFullScreen = {isFullScreen}
+          setIsFullScreen = {setIsFullScreen}
+          />
+        </div>
+        <div className='w-1/2 h-screen flex flex-col'>
+            <InputConsole
+              currentInput={currentInput}
+              setCurrentInput={setCurrentInput}
+              getFile={getFile}
+            />
+            <OutputConsole
+            currentOutput={currentOutput}
+            
+            />
+        </div>
+      </div>
     </div>
   )
 }
