@@ -1,21 +1,21 @@
 import React, { useContext, useState } from 'react'
 import Navbar from '../Component/Playground/Navbar'
+import EditorContainer from '../Component/Playground/EditContainer'
 import { useParams } from 'react-router-dom'
 import { PlaygroundContext, languageMap } from '../Context/PlaygroundContext'
 import { ModalContext } from '../Context/ModalContext'
 import Modal from '../Component/Modal'
 import { Buffer } from 'buffer'
 import axios from 'axios'
-import EditContainer from '../Component/Playground/EditContainer';
-import InputConsole from '../Component/Playground/InputConsole'
+import InputConsole from '../Component/Playground/InputConsole';
 import OutputConsole from '../Component/Playground/OutputConsole'
 function PlayGround() {
 
   const { folderId, playgroundId } = useParams()
   const { folders, savePlayground } = useContext(PlaygroundContext)
   const { isOpenModal, openModal, closeModal } = useContext(ModalContext)
-  const { title, language, code } = folders[folderId]?.playgrounds[playgroundId]
-  console.log(title, language, code)
+  const { title, language, code } = folders[folderId].playgrounds[playgroundId]
+
   const [currentLanguage, setCurrentLanguage] = useState(language)
   const [currentCode, setCurrentCode] = useState(code)
   const [currentInput, setCurrentInput] = useState('')
@@ -144,35 +144,41 @@ function PlayGround() {
 
   return (
     <div>
-      <Navbar />
-      <div className='flex'>
-        <div className='w-1/2 h-screen'>
-          <EditContainer
-          title={title}
-          currentLanguage={currentLanguage}
-          setCurrentLanguage={setCurrentLanguage}
-          currentCode={currentCode}
-          folderId={folderId}
-          playgroundId={playgroundId}
-          saveCode={saveCode}
-          runCode={runCode}
-          getFile={getFile}
-          isFullScreen = {isFullScreen}
-          setIsFullScreen = {setIsFullScreen}
+      <Navbar isFullScreen={isFullScreen} />
+      <div className='flex flex-col lg:flex-row h-full'>
+        <div className={`${isFullScreen ? "w-full" : "w-full lg:w-3/4 "}`}>
+          <EditorContainer
+            title={title}
+            currentLanguage={currentLanguage}
+            setCurrentLanguage={setCurrentLanguage}
+            currentCode={currentCode}
+            setCurrentCode={setCurrentCode}
+            folderId={folderId}
+            playgroundId={playgroundId}
+            saveCode={saveCode}
+            runCode={runCode}
+            getFile={getFile}
+            isFullScreen={isFullScreen}
+            setIsFullScreen={setIsFullScreen}
           />
         </div>
-        <div className='w-1/2 h-screen flex flex-col'>
+        {
+          !isFullScreen &&
+          <div className={`w-full lg:w-1/4`}>
             <InputConsole
               currentInput={currentInput}
               setCurrentInput={setCurrentInput}
               getFile={getFile}
             />
             <OutputConsole
-            currentOutput={currentOutput}
-            
+              currentOutput={currentOutput}
             />
-        </div>
+          </div>
+        }
+        {isOpenModal.show && <Modal />}
       </div>
+        
+
     </div>
   )
 }
