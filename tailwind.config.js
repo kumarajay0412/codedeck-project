@@ -11,6 +11,7 @@ module.exports = {
       primaryLight: "#00BFFF",
       black: "#1E1E1E",
       white: "#FFFFFF",
+      red: "#FF0000",
     },
     extend: {
       fontFamily: {

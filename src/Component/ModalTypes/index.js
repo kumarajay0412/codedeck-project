@@ -4,5 +4,5 @@ import NewPlayGroundAndFolder from "./NewPlayGroundAndFolder";
 import EditFolder from "./EditFolder";
 import EditPlayGroundTitle from "./EditPlayGroundTitle";
 import Loading from "./Loading";
-
-export {NewFolder,NewPlayGround,NewPlayGroundAndFolder,EditFolder,Loading,EditPlayGroundTitle };
+import SignInSignUp from "./SignInSignUp";
+export {NewFolder,NewPlayGround,NewPlayGroundAndFolder,EditFolder,Loading,EditPlayGroundTitle,SignInSignUp };

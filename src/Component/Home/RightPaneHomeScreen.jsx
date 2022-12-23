@@ -27,6 +27,16 @@ function RightPaneHomeScreen() {
                         cardId: "",
                     }
                 })}><span className='font-semibold text-2xl'>+</span> New Folder</h4>
+
+                <h4 onClick={() => openModal({
+                    show: true,
+                    modalType: 7,
+                    identifiers: {
+                        folderId: "",
+                        cardId: "",
+                    }
+                })}><span className='font-semibold text-2xl'></span> Login</h4>
+
             </div>
             <hr class="mb-12 mt-4 bg-black" />
 
