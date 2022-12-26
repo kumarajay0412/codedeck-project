@@ -1,18 +1,20 @@
 import { createContext, useState, useEffect } from "react";
 import { v4 as uuid } from 'uuid';
+import { auth, db } from "../firebaseConfig";
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 export const PlaygroundContext = createContext();
 
 export const languageMap = {
     "cpp": {
         id: 54,
-        defaultCode: 
-        "#include <iostream>\n"
-        + "using namespace std;\n\n"
-        + "int main() {\n"
-        + '\tcout << "Hello World!";\n'
-        + "\treturn 0;\n"
-        + "}",
+        defaultCode:
+            "#include <iostream>\n"
+            + "using namespace std;\n\n"
+            + "int main() {\n"
+            + '\tcout << "Hello World!";\n'
+            + "\treturn 0;\n"
+            + "}",
     },
     "java": {
         id: 62,
@@ -33,7 +35,8 @@ export const languageMap = {
 }
 
 const PlaygroundProvider = ({ children }) => {
-
+    const [user] = useAuthState(auth);
+    const [firstLoad, setFirstLoad] = useState(true);
     const initialItems = {
         [uuid()]: {
             title: "DSA",
@@ -61,8 +64,27 @@ const PlaygroundProvider = ({ children }) => {
     })
 
     useEffect(() => {
-        localStorage.setItem('playgrounds-data', JSON.stringify(folders));
-    }, [folders])
+        if (firstLoad && user) {
+            console.log("user", user)
+            const resultsRef = db.collection('userData').doc(user?.uid);
+            resultsRef.get().then((response) => {
+                setFolders(response.data())
+                setFirstLoad(false);
+            }).catch((error) => {
+                console.log("error", error)
+            });
+        }
+        if (user && !firstLoad) {
+            console.log(folders)
+            const resultsRef = db.collection('userData').doc(user?.uid);
+            resultsRef.set(folders).then((response) => {
+                console.log("request updated")
+            });
+        }
+        else {
+            localStorage.setItem('playgrounds-data', JSON.stringify(folders));
+        }
+    }, [folders, user])
 
     const deleteCard = (folderId, cardId) => {
         setFolders((oldState) => {

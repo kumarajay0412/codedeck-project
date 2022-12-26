@@ -15,6 +15,7 @@ function SignInSignUp() {
     const signInWithGoogle = () => {
         signInWithPopup(auth, googleProvider).then((result) => {
             console.log(result)
+            closeModal()
         }).catch((error) => {
             console.log(error)
         })

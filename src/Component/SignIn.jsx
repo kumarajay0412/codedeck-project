@@ -25,7 +25,7 @@ function SignIn() {
         auth.signInWithEmailAndPassword(data.email, data.password).then((userCredential) => {
             console.log(userCredential)
             toast.success("Login Succesfull", toastArray);
-        
+            closeModal()
         }
         ).catch((error) => {
             console.log(error,toastArray)
